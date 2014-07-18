@@ -2,7 +2,7 @@
 
 Express/Connect middleware to serve static files from cleaner, extensionless urls.
 
-Note: clean urls are only used for `.html` files. Useful for sites like blogs that are generated from static site generators such as Jekyll.
+Clean urls are only used for `.html` files. Useful for sites like blogs that are generated from static site generators such as Jekyll.
 
 ## Install
 
