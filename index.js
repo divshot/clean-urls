@@ -3,6 +3,7 @@ var qs = require('querystring');
 var url = require('fast-url-parser');
 var fileExists = require('file-exists');
 var deliver = require('deliver');
+var mime = require('mime-types');
 
 module.exports = function (options) {
   options = options || {};
@@ -19,7 +20,9 @@ module.exports = function (options) {
     
     req.url = path.join(root, pathname + '.html');
     
-    deliver(req).pipe(res);
+    deliver(req, {
+      contentType: mime.lookup(pathname)
+    }).pipe(res);
   };
 
   function redirectAsCleanUrl (req, res) {
