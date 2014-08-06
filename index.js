@@ -11,8 +11,11 @@ module.exports = function (options) {
   var root = options.root || '';
   var indexFile = options.index || 'index.html';
   
+  if (options.exists) fileExists = options.exists;
+  
   return function (req, res, next) {
     var pathname = url.parse(req.url).pathname;
+    var reqOptions = {};
     
     if (pathname === '/') return next();
     if (path.extname(pathname) === '.html') return redirectAsCleanUrl(req, res);
@@ -20,9 +23,15 @@ module.exports = function (options) {
     
     req.url = path.join(root, pathname + '.html');
     
-    deliver(req, {
-      contentType: mime.lookup(pathname)
-    }).pipe(res);
+    if (options.fullPath) {
+      var p = options.fullPath(pathname);
+      reqOptions.root = p.root;
+      req.url = p.pathname + '.html';
+    }
+    
+    reqOptions.contentType = mime.lookup(pathname);
+    
+    deliver(req, reqOptions).pipe(res);
   };
 
   function redirectAsCleanUrl (req, res) {
