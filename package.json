@@ -1,6 +1,6 @@
 {
   "name": "clean-urls",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Express/Connect middleware to serve static files from cleaner, extensionless urls",
   "main": "index.js",
   "directories": {

@@ -31,7 +31,7 @@ module.exports = function (options) {
     
     reqOptions.contentType = mime.lookup(pathname);
     
-    deliver(req, reqOptions).pipe(res);
+    deliver(req, res, reqOptions).pipe(res);
   };
 
   function redirectAsCleanUrl (req, res) {
