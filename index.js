@@ -30,6 +30,7 @@ module.exports = function (options) {
     }
     
     reqOptions.contentType = mime.lookup(pathname);
+    reqOptions.headers = options.headers;
     
     deliver(req, res, reqOptions).pipe(res);
   };
