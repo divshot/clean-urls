@@ -128,7 +128,7 @@ describe('clean urls middleware', function () {
           fullPath: function (pathname) {
             fullPathCalled = true;
             return {
-              root: '/',
+              root: process.cwd(),
               pathname: pathname
             }
           }
@@ -139,6 +139,7 @@ describe('clean urls middleware', function () {
         .expect(function () {
           expect(fullPathCalled).to.equal(true);
         })
+        .expect('error')
         .end(function (err) {
           fs.unlinkSync('error.html');
           done(err);
@@ -147,10 +148,6 @@ describe('clean urls middleware', function () {
   });
   
   // it('overrides the fileExists method', function (done) {
-  //   done();
-  // });
-  
-  // it('overrides the fullPath method', function (done) {
   //   done();
   // });
 });
