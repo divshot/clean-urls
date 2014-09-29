@@ -38,7 +38,7 @@ module.exports = function (options) {
     onHeaders(res, function () {
       
       if (!res.getHeader('content-type')) {
-        res.setHeader('content-type', contentType);
+        res.setHeader('content-type', contentType || mime.lookup('.html'));
       }
     });
     
