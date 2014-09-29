@@ -4,7 +4,6 @@ var url = require('fast-url-parser');
 var fileExists = require('file-exists');
 var deliver = require('deliver');
 var mime = require('mime-types');
-var onHeaders = require('on-headers');
 
 module.exports = function (options) {
   options = options || {};
@@ -24,7 +23,6 @@ module.exports = function (options) {
     
     req.url = path.join(root, pathname + '.html');
     
-    var contentType = reqOptions.contentType = mime.lookup(req.url);
     
     if (options.fullPath) {
       var p = options.fullPath(req.url);
@@ -33,14 +31,7 @@ module.exports = function (options) {
     }
     
     reqOptions.headers = options.headers;
-    
-    // Default headres for html files
-    onHeaders(res, function () {
-      
-      if (!res.getHeader('content-type')) {
-        res.setHeader('content-type', contentType || mime.lookup('.html'));
-      }
-    });
+    reqOptions.contentType = mime.lookup('.html');
     
     deliver(req, res, reqOptions).pipe(res);
   };
