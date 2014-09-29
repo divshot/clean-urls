@@ -23,13 +23,14 @@ module.exports = function (options) {
     
     req.url = path.join(root, pathname + '.html');
     
+    reqOptions.contentType = mime.lookup(req.url);
+    
     if (options.fullPath) {
       var p = options.fullPath(req.url);
       reqOptions.root = p.root;
       req.url = p.pathname;
     }
     
-    reqOptions.contentType = mime.lookup(req.url);
     reqOptions.headers = options.headers;
     
     deliver(req, res, reqOptions).pipe(res);

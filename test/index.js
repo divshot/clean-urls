@@ -49,6 +49,7 @@ describe('clean urls middleware', function () {
       .get('/superstatic')
       .expect(200)
       .expect('test')
+      .expect('content-type', 'text/html; charset=UTF-8')
       .end(done);
   });
   
