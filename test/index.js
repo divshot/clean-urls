@@ -77,7 +77,7 @@ describe('clean urls middleware', function () {
       fs.writeFileSync('.tmp/yes/superstatic.html', 'test', 'utf8');
       
       var app = connect()
-        .use(cleanUrls('/superstatic', {
+        .use(cleanUrls('/superstatic.html', {
           root: '.tmp/yes'
         }));
       
@@ -103,7 +103,7 @@ describe('clean urls middleware', function () {
         .end(done)
     });
     
-    it('serves the clena url from an array of globs', function (done) {
+    it('serves the clean url from an array of globs', function (done) {
       
       mkdirp.sync('.tmp/yes');
       fs.writeFileSync('.tmp/yes/superstatic.html', 'test', 'utf8');

@@ -75,12 +75,11 @@ module.exports = function (rules, options) {
     
     var p = pathname + '.html';
     
-    return pathMatchesRules(pathname, rules) && fileExists(p, {root: root});
+    return pathMatchesRules(p, rules) && fileExists(p, {root: root});
   }
   
   function parseRules (rules) {
     
-    rules = booly(rules);
     if (typeof rules === 'boolean' || !rules) {
       rules = "**";
     }
