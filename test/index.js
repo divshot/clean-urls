@@ -41,7 +41,7 @@ describe('clean urls middleware', function () {
     fs.writeFileSync('.tmp/superstatic.html', 'test', 'utf8');
     
     var app = connect()
-      .use(cleanUrls({
+      .use(cleanUrls(true, {
         root: '.tmp'
       }));
     
@@ -51,6 +51,73 @@ describe('clean urls middleware', function () {
       .expect('test')
       .expect('content-type', 'text/html; charset=UTF-8')
       .end(done);
+  });
+  
+  describe('glob patterns', function () {
+    
+    it('redirect to clean url', function (done) {
+      
+      mkdirp.sync('.tmp/yes');
+      fs.writeFileSync('.tmp/yes/superstatic.html', 'test', 'utf8');
+      
+      var app = connect()
+        .use(cleanUrls('**/*.html', {
+          root: '.tmp/yes'
+        }));
+      
+      request(app)
+        .get('/superstatic.html')
+        .expect(301)
+        .end(done);
+    });
+    
+    it('seves clean url', function (done) {
+      
+      mkdirp.sync('.tmp/yes');
+      fs.writeFileSync('.tmp/yes/superstatic.html', 'test', 'utf8');
+      
+      var app = connect()
+        .use(cleanUrls('**/*.html', {
+          root: '.tmp/yes'
+        }));
+      
+      request(app)
+        .get('/superstatic')
+        .expect(200)
+        .end(done)
+    });
+    
+    it('redirects with an array of globs', function (done) {
+      
+      mkdirp.sync('.tmp/yes');
+      fs.writeFileSync('.tmp/yes/superstatic.html', 'test', 'utf8');
+      
+      var app = connect()
+        .use(cleanUrls(['**/*.html', 'yes/**/*.html'], {
+          root: '.tmp'
+        }));
+      
+      request(app)
+        .get('/yes/superstatic.html')
+        .expect(301)
+        .end(done)
+    });
+    
+    it('serves the clena url from an array of globs', function (done) {
+      
+      mkdirp.sync('.tmp/yes');
+      fs.writeFileSync('.tmp/yes/superstatic.html', 'test', 'utf8');
+      
+      var app = connect()
+        .use(cleanUrls(['**/*.html', 'yes/**/*.html'], {
+          root: '.tmp'
+        }));
+      
+      request(app)
+        .get('/yes/superstatic')
+        .expect(200)
+        .end(done)
+    });
   });
   
   // TODO: fix this test. this
@@ -80,7 +147,7 @@ describe('clean urls middleware', function () {
     fs.writeFileSync('.tmp/yep.html', 'yep');
     
     var app = connect()
-      .use(cleanUrls({
+      .use(cleanUrls(true, {
         root: '.tmp'
       }));
     
@@ -96,7 +163,7 @@ describe('clean urls middleware', function () {
       
       var existsCalled = false;
       var app = connect()
-        .use(cleanUrls({
+        .use(cleanUrls(true, {
           root: './',
           exists: function () {
             existsCalled = true;
@@ -122,7 +189,7 @@ describe('clean urls middleware', function () {
       
       var fullPathCalled = false;
       var app = connect()
-        .use(cleanUrls({
+        .use(cleanUrls(true, {
           exists: function () {
             return true;
           },
