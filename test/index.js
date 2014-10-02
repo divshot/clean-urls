@@ -71,13 +71,13 @@ describe('clean urls middleware', function () {
         .end(done);
     });
     
-    it('seves clean url', function (done) {
+    it('serves clean url', function (done) {
       
       mkdirp.sync('.tmp/yes');
       fs.writeFileSync('.tmp/yes/superstatic.html', 'test', 'utf8');
       
       var app = connect()
-        .use(cleanUrls('**/*.html', {
+        .use(cleanUrls('/superstatic', {
           root: '.tmp/yes'
         }));
       

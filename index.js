@@ -75,7 +75,7 @@ module.exports = function (rules, options) {
     
     var p = pathname + '.html';
     
-    return pathMatchesRules(p, rules) && fileExists(p, {root: root});
+    return pathMatchesRules(pathname, rules) && fileExists(p, {root: root});
   }
   
   function parseRules (rules) {
@@ -89,7 +89,7 @@ module.exports = function (rules, options) {
   
   function pathMatchesRules(pathname, rules) {
     
-    return find(asArray(pathname), function (rule) {
+    return !!find(asArray(rules), function (rule) {
       return minimatch(pathname, rule);
     });
   }
