@@ -88,7 +88,7 @@ module.exports = function (rules, options) {
   
   function pathMatchesRules(pathname, rules) {
     
-    return !!find(asArray(rules), function (rule) {
+    return !!find(asArray(rules, true), function (rule) {
       return minimatch(pathname, rule);
     });
   }

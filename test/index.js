@@ -119,6 +119,22 @@ describe('clean urls middleware', function () {
         .end(done)
     });
   });
+
+  it('redirects with an arguments-like object of globs', function (done) {
+    
+    mkdirp.sync('.tmp/yes');
+    fs.writeFileSync('.tmp/yes/superstatic.html', 'test', 'utf8');
+    
+    var app = connect()
+      .use(cleanUrls({'0': '**/*.html', '2': 'yes/**/*.html'}, {
+        root: '.tmp'
+      }));
+    
+    request(app)
+      .get('/yes/superstatic.html')
+      .expect(301)
+      .end(done)
+  });
   
   // TODO: fix this test. this
   // does nothing right now
