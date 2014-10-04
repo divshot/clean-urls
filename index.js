@@ -12,6 +12,11 @@ var asArray = require('as-array');
 
 module.exports = function (rules, options) {
   
+  // Default to true
+  if (rules === undefined) {
+    rules = true;
+  }
+  
   options = options || {};
   
   var root = options.root || '';
@@ -28,11 +33,11 @@ module.exports = function (rules, options) {
       return next();
     }
     
-    if (path.extname(pathname) === '.html' && pathMatchesRules(pathname, parseRules(rules))) {
+    if (path.extname(pathname) === '.html' && pathMatchesRules(pathname, rules)) {
       return redirectAsCleanUrl(req, res);
     }
     
-    if (!isCleanUrl(pathname, parseRules(rules))) {
+    if (!isCleanUrl(pathname, rules)) {
       return next();
     }
     
@@ -78,15 +83,11 @@ module.exports = function (rules, options) {
     return pathMatchesRules(p, rules) && fileExists(p, {root: root});
   }
   
-  function parseRules (rules) {
-    
-    if (typeof rules === 'boolean' || !rules) {
-      rules = "**";
-    }
-    return rules;
-  }
-  
   function pathMatchesRules(pathname, rules) {
+    
+    if (typeof booly(rules) === 'boolean') {
+      return rules;
+    }
     
     return !!find(asArray(rules, true), function (rule) {
       return minimatch(pathname, rule);
