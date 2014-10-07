@@ -136,6 +136,23 @@ describe('clean urls middleware', function () {
       .end(done)
   });
   
+  it('accepts a string value of "true" as a value to turn on for all paths', function (done) {
+    
+    mkdirp.sync('.tmp/yes');
+    fs.writeFileSync('.tmp/yes/superstatic.html', 'test', 'utf8');
+    
+    var app = connect()
+      .use(cleanUrls('true', {
+        root: '.tmp'
+      }));
+    
+    request(app)
+      .get('/yes/superstatic')
+      .expect(200)
+      .expect('test')
+      .end(done)
+  });
+  
   // TODO: fix this test. this
   // does nothing right now
   it('sets the default root if no root in config and no root in settings', function (done) {

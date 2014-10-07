@@ -85,8 +85,8 @@ module.exports = function (rules, options) {
   
   function pathMatchesRules(pathname, rules) {
     
-    if (typeof booly(rules) === 'boolean') {
-      return rules;
+    if (typeof booly(rules) === 'boolean' && booly(rules) === true) {
+      rules = '**';
     }
     
     return !!find(asArray(rules, true), function (rule) {
