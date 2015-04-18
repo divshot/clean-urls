@@ -78,7 +78,7 @@ module.exports = function (rules, options) {
 
   function isCleanUrl (pathname, rules) {
     
-    var p = pathname + '.html';
+    var p = decodeURIComponent(pathname + '.html');
     
     return pathMatchesRules(p, rules) && fileExists(p, {root: root});
   }
